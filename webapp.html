@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tic Tac Toe: First to 5 Wins</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .scoreboard {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #ffffff;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #4a90e2;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cell:hover {
+      background-color: #e0ebff;
+    }
+
+    .message {
+      font-size: 20px;
+      margin-top: 10px;
+      height: 30px;
+    }
+
+    .reset-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .reset-btn:hover {
+      background-color: #357ac8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Tic Tac Toe</h1>
+  <div class="scoreboard">
+    Player Wins: <span id="playerScore">0</span> |
+    Computer Wins: <span id="computerScore">0</span>
+  </div>
+
+  <div class="board" id="board"></div>
+  <div class="message" id="message"></div>
+  <button class="reset-btn" onclick="resetGame()">Reset Game</button>
+
+  <script>
+    const board = document.getElementById('board');
+    const message = document.getElementById('message');
+    const playerScoreEl = document.getElementById('playerScore');
+    const computerScoreEl = document.getElementById('computerScore');
+
+    let cells = Array(9).fill('');
+    let playerScore = 0;
+    let computerScore = 0;
+    let gameOver = false;
+
+    function renderBoard() {
+      board.innerHTML = '';
+      cells.forEach((cell, index) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        cellDiv.textContent = cell;
+        cellDiv.addEventListener('click', () => handleMove(index));
+        board.appendChild(cellDiv);
+      });
+    }
+
+    function handleMove(index) {
+      if (cells[index] || gameOver) return;
+
+      cells[index] = 'X';
+      renderBoard();
+      if (checkWin('X')) {
+        playerScore++;
+        playerScoreEl.textContent = playerScore;
+        message.textContent = 'You win this round!';
+        endRound();
+        return;
+      }
+
+      if (cells.every(cell => cell)) {
+        message.textContent = 'It’s a tie!';
+        endRound();
+        return;
+      }
+
+      setTimeout(() => {
+        computerMove();
+        renderBoard();
+        if (checkWin('O')) {
+          computerScore++;
+          computerScoreEl.textContent = computerScore;
+          message.textContent = 'Computer wins this round!';
+          endRound();
+        } else if (cells.every(cell => cell)) {
+          message.textContent = 'It’s a tie!';
+          endRound();
+        }
+      }, 300);
+    }
+
+    function computerMove() {
+      let emptyIndexes = cells
+        .map((cell, i) => (cell === '' ? i : null))
+        .filter(i => i !== null);
+      if (emptyIndexes.length === 0) return;
+      const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+      cells[randomIndex] = 'O';
+    }
+
+    function checkWin(player) {
+      const winPatterns = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+      ];
+      return winPatterns.some(pattern =>
+        pattern.every(index => cells[index] === player)
+      );
+    }
+
+    function endRound() {
+      gameOver = true;
+      setTimeout(() => {
+        if (playerScore >= 5) {
+          alert('🎉 You are the Champion! First to 5!');
+          resetFullGame();
+        } else if (computerScore >= 5) {
+          alert('💻 Computer is the Champion! First to 5!');
+          resetFullGame();
+        } else {
+          newRound();
+        }
+      }, 1000);
+    }
+
+    function newRound() {
+      cells = Array(9).fill('');
+      gameOver = false;
+      message.textContent = '';
+      renderBoard();
+    }
+
+    function resetGame() {
+      playerScore = 0;
+      computerScore = 0;
+      playerScoreEl.textContent = '0';
+      computerScoreEl.textContent = '0';
+      newRound();
+    }
+
+    function resetFullGame() {
+      resetGame();
+    }
+
+    // Start the game
+    renderBoard();
+  </script>
+
+</body>
+</html>

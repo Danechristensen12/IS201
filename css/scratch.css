@@ -1,0 +1,64 @@
+body {
+    background-color: #bddefa; /* light blue */
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+ /* Base styles for the whole page */
+body {
+    background-color: #a8d9f6;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #101316;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  /* Intro paragraph and links section */
+  #intro {
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  /* Section for top athletes */
+  #athletes {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  /* Section for the YouTube video */
+  #videoSection {
+    background-color: #f0f8ff;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+  }
+  
+  /* Emphasized list items */
+  .emphasizedText {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+  
+  /* Centered list styling */
+  .centered-list {
+    text-align: left;
+    margin-left: 20px;
+    padding-left: 20px;
+    list-style-position: outside;
+  }
+  
+  }
+  
+  /* Links */
+  a {
+    color: #007acc;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+  
+  
+  
